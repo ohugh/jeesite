@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.issue.dao.TbIssueDao">
+    
+	<sql id="tbIssueColumns">
+		a.id AS "id",
+		a.issue_title AS "issueTitle",
+		a.issue_content AS "issueContent",
+		a.issue_status AS "issueStatus",
+		a.popularity AS "popularity",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="tbIssueJoins">
+	</sql>
+    
+	<select id="get" resultType="TbIssue">
+		SELECT 
+			<include refid="tbIssueColumns"/>
+		FROM tb_issue a
+		<include refid="tbIssueJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="TbIssue">
+		SELECT 
+			<include refid="tbIssueColumns"/>
+		FROM tb_issue a
+		<include refid="tbIssueJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="issueTitle != null and issueTitle != ''">
+				AND a.issue_title LIKE 
+					<if test="dbName == 'oracle'">'%'||#{issueTitle}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{issueTitle}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{issueTitle},'%')</if>
+			</if>
+			<if test="issueStatus != null and issueStatus != ''">
+				AND a.issue_status = #{issueStatus}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="TbIssue">
+		SELECT 
+			<include refid="tbIssueColumns"/>
+		FROM tb_issue a
+		<include refid="tbIssueJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO tb_issue(
+			id,
+			issue_title,
+			issue_content,
+			issue_status,
+			popularity,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{issueTitle},
+			#{issueContent},
+			0,
+			#{popularity},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE tb_issue SET 	
+			issue_title = #{issueTitle},
+			issue_content = #{issueContent},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE tb_issue SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -1,0 +1,75 @@
+/**
+ * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
+ */
+package com.thinkgem.jeesite.modules.issue.entity;
+
+import org.hibernate.validator.constraints.Length;
+import javax.validation.constraints.NotNull;
+
+import com.thinkgem.jeesite.common.persistence.DataEntity;
+
+/**
+ * 学生问题管理Entity
+ * @author 毕业设计
+ * @version 2018-03-15
+ */
+public class TbIssue extends DataEntity<TbIssue> {
+	
+	private static final long serialVersionUID = 1L;
+	private String issueTitle;		// 标题
+	private String issueContent;		// 内容
+	private Integer issueStatus;		// 状态
+	private Integer popularity;		// 热度
+	private boolean isSelf;		// 是否显示另一个标签
+	
+	public void setSelf(boolean isSelf) {
+		this.isSelf = isSelf;
+	}
+	
+	public boolean isSelf() {
+		return isSelf;
+	}
+	
+	public TbIssue() {
+		super();
+	}
+
+	public TbIssue(String id){
+		super(id);
+	}
+
+	@Length(min=1, max=255, message="标题长度必须介于 1 和 255 之间")
+	public String getIssueTitle() {
+		return issueTitle;
+	}
+
+	public void setIssueTitle(String issueTitle) {
+		this.issueTitle = issueTitle;
+	}
+	
+	public String getIssueContent() {
+		return issueContent;
+	}
+
+	public void setIssueContent(String issueContent) {
+		this.issueContent = issueContent;
+	}
+	
+	@NotNull(message="状态不能为空")
+	public Integer getIssueStatus() {
+		return issueStatus;
+	}
+
+	public void setIssueStatus(Integer issueStatus) {
+		this.issueStatus = issueStatus;
+	}
+	
+	public Integer getPopularity() {
+		return popularity;
+	}
+
+	public void setPopularity(Integer popularity) {
+		this.popularity = popularity;
+	}
+	
+}
