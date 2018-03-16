@@ -89,7 +89,7 @@
 			#{id},
 			#{issueTitle},
 			#{issueContent},
-			0,
+			#{issueStatus},
 			#{popularity},
 			#{createBy.id},
 			#{createDate},
@@ -104,6 +104,7 @@
 		UPDATE tb_issue SET 	
 			issue_title = #{issueTitle},
 			issue_content = #{issueContent},
+			issue_status = #{issueStatus},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
 			remarks = #{remarks}

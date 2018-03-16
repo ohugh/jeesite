@@ -65,7 +65,8 @@ public class TbIssueController extends BaseController {
 	@RequiresPermissions("issue:tbIssue:edit")
 	@RequestMapping(value = "save")
 	public String save(TbIssue tbIssue, Model model, RedirectAttributes redirectAttributes) {
-		if (!beanValidator(model, tbIssue)){
+		tbIssue.setIssueStatus(0);				//添加代码 每次修改后，状态都要变成 未通过
+		if (!beanValidator(model, tbIssue)){	//验证form表	单传过来对象的有效性
 			return form(tbIssue, model);
 		}
 		tbIssueService.save(tbIssue);
@@ -81,7 +82,7 @@ public class TbIssueController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/issue/tbIssue/?repage";
 	}
 	
-	/**
+	/**添加代码
 	 * 是否显示另一个标题
 	 */
 	@RequestMapping(value = "self")
@@ -92,6 +93,35 @@ public class TbIssueController extends BaseController {
 		model.addAttribute("page", page);
 		return "modules/issue/tbIssueList";
 
+	}
+	
+	
+	@RequiresPermissions("issue:tbIssue:view")
+	@RequestMapping(value = "checklist")
+	public String checklist(TbIssue tbIssue, HttpServletRequest request, HttpServletResponse response, Model model) {
+		Page<TbIssue> page = tbIssueService.findPage(new Page<TbIssue>(request, response), tbIssue); 
+		model.addAttribute("page", page);
+		return "modules/issue/checkIssueList";
+	}
+
+	@RequiresPermissions("issue:tbIssue:view")
+	@RequestMapping(value = "checkform")
+	public String checkform(TbIssue tbIssue, Model model) {
+		model.addAttribute("tbIssue", tbIssue);
+		return "modules/issue/checkIssueForm";
+	}
+	
+	@RequiresPermissions("issue:tbIssue:edit")
+	@RequestMapping(value = "checksave")
+	public String checksave(TbIssue tbIssue, Model model, RedirectAttributes redirectAttributes) {
+		tbIssue.setIssueStatus(1);				//从老师通过页面后，状态要变成 通过
+		if (!beanValidator(model, tbIssue)){	//验证form表	单传过来对象的有效性
+			return form(tbIssue, model);
+		}
+		System.out.println(tbIssue.getIssueStatus());
+		tbIssueService.save(tbIssue);
+		addMessage(redirectAttributes, "保存问题信息成功");
+		return "redirect:"+Global.getAdminPath()+"/issue/tbIssue/checklist/?repage";
 	}
 
 }
