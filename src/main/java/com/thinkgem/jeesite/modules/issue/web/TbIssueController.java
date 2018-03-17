@@ -125,28 +125,38 @@ public class TbIssueController extends BaseController {
 	}
 	//老师审核学生问题 结束
 	
-	
-	//老师审核学生问题 开始
+
+	//老师回复学生问题 开始
+	//回复的list 页面对应处理方法
 	@RequiresPermissions("issue:tbIssue:view")
 	@RequestMapping(value = "replylist")
 	public String replylist(TbIssue tbIssue, HttpServletRequest request, HttpServletResponse response, Model model) {
-		
-		
+		System.out.println(tbIssue.getIssueStatus());
 		Page<TbIssue> page = tbIssueService.findPagelist(new Page<TbIssue>(request, response), tbIssue); 
-		
-		
-		
-		
 		model.addAttribute("page", page);
 		return "modules/issue/replyIssueList";
 	}
-
+	
+	//回复的form 页面对应处理方法
 	@RequiresPermissions("issue:tbIssue:view")
 	@RequestMapping(value = "replyform")
 	public String replyform(TbIssue tbIssue, Model model) {
+		System.out.println(tbIssue.getteacherid());
 		model.addAttribute("tbIssue", tbIssue);
 		return "modules/issue/replyIssueForm";
 	}
 	
+	//TODO 没有给老师的id写入进去
+	@RequiresPermissions("issue:tbIssue:edit")
+	@RequestMapping(value = "replysave")
+	public String replysave(TbIssue tbIssue, Model model, RedirectAttributes redirectAttributes) {
+		if (!beanValidator(model, tbIssue)){	//验证form表	单传过来对象的有效性
+			return form(tbIssue, model);
+		}
+		tbIssueService.save(tbIssue);
+		addMessage(redirectAttributes, "保存问题信息成功");
+		return "redirect:"+Global.getAdminPath()+"/issue/tbIssue/replylist/?repage";
+	}
+
 
 }
