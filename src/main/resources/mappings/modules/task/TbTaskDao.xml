@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.task.dao.TbTaskDao">
+    
+	<sql id="tbTaskColumns">
+		a.id AS "id",
+		a.task_title AS "taskTitle",
+		a.task_class AS "taskClass",
+		a.task_file AS "taskFile",
+		a.task_create_id AS "taskCreateId",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="tbTaskJoins">
+	</sql>
+    
+	<select id="get" resultType="TbTask">
+		SELECT 
+			<include refid="tbTaskColumns"/>
+		FROM tb_task a
+		<include refid="tbTaskJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="TbTask">
+		SELECT 
+			<include refid="tbTaskColumns"/>
+		FROM tb_task a
+		<include refid="tbTaskJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="taskTitle != null and taskTitle != ''">
+				AND a.task_title LIKE 
+					<if test="dbName == 'oracle'">'%'||#{taskTitle}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{taskTitle}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{taskTitle},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="TbTask">
+		SELECT 
+			<include refid="tbTaskColumns"/>
+		FROM tb_task a
+		<include refid="tbTaskJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO tb_task(
+			id,
+			task_title,
+			task_class,
+			task_file,
+			task_create_id,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{taskTitle},
+			#{taskClass},
+			#{taskFile},
+			#{taskCreateId},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE tb_task SET 	
+			task_title = #{taskTitle},
+			task_class = #{taskClass},
+			task_file = #{taskFile},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE tb_task SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

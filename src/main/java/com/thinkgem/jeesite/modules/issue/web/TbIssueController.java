@@ -95,7 +95,7 @@ public class TbIssueController extends BaseController {
 
 	}
 	
-	
+	//老师审核学生问题 开始
 	@RequiresPermissions("issue:tbIssue:view")
 	@RequestMapping(value = "checklist")
 	public String checklist(TbIssue tbIssue, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -123,5 +123,24 @@ public class TbIssueController extends BaseController {
 		addMessage(redirectAttributes, "保存问题信息成功");
 		return "redirect:"+Global.getAdminPath()+"/issue/tbIssue/checklist/?repage";
 	}
+	//老师审核学生问题 结束
+	
+	
+	//老师审核学生问题 开始
+	@RequiresPermissions("issue:tbIssue:view")
+	@RequestMapping(value = "replylist")
+	public String replylist(TbIssue tbIssue, HttpServletRequest request, HttpServletResponse response, Model model) {
+		Page<TbIssue> page = tbIssueService.findPage(new Page<TbIssue>(request, response), tbIssue); 
+		model.addAttribute("page", page);
+		return "modules/issue/replyIssueList";
+	}
+
+	@RequiresPermissions("issue:tbIssue:view")
+	@RequestMapping(value = "replyform")
+	public String replyform(TbIssue tbIssue, Model model) {
+		model.addAttribute("tbIssue", tbIssue);
+		return "modules/issue/replyIssueForm";
+	}
+	
 
 }

@@ -20,6 +20,7 @@ public class TbIssue extends DataEntity<TbIssue> {
 	private String issueContent;		// 内容
 	private Integer issueStatus;		// 状态
 	private Integer popularity;		// 热度
+	//private //解答老师id  对应数据库的列
 	
 	private boolean isSelf;		// 添加 是否显示另一个标签 数据库中没有此列
 	//添加开始
