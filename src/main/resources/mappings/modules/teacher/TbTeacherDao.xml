@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.teacher.dao.TbTeacherDao">
+    
+	<sql id="tbTeacherColumns">
+		a.id AS "id",
+		a.account AS "account",
+		a.teacher_name AS "teacherName",
+		a.passwd AS "passwd",
+		a.sex AS "sex",
+		a.identity AS "identity",
+		a.file_id AS "fileId",
+		a.class_id AS "classId",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="tbTeacherJoins">
+	</sql>
+    
+	<select id="get" resultType="TbTeacher">
+		SELECT 
+			<include refid="tbTeacherColumns"/>
+		FROM tb_teacher a
+		<include refid="tbTeacherJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="TbTeacher">
+		SELECT 
+			<include refid="tbTeacherColumns"/>
+		FROM tb_teacher a
+		<include refid="tbTeacherJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="teacherName != null and teacherName != ''">
+				AND a.teacher_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{teacherName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{teacherName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{teacherName},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="TbTeacher">
+		SELECT 
+			<include refid="tbTeacherColumns"/>
+		FROM tb_teacher a
+		<include refid="tbTeacherJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO tb_teacher(
+			id,
+			account,
+			teacher_name,
+			passwd,
+			sex,
+			identity,
+			file_id,
+			class_id,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{account},
+			#{teacherName},
+			#{passwd},
+			#{sex},
+			#{identity},
+			#{fileId},
+			#{classId},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE tb_teacher SET 	
+			account = #{account},
+			teacher_name = #{teacherName},
+			passwd = #{passwd},
+			sex = #{sex},
+			identity = #{identity},
+			file_id = #{fileId},
+			class_id = #{classId},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE tb_teacher SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
