@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.issue.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -33,6 +34,23 @@ public class TbIssueService extends CrudService<TbIssueDao, TbIssue> {
 	public Page<TbIssue> findPage(Page<TbIssue> page, TbIssue tbIssue) {
 		return super.findPage(page, tbIssue);
 	}
+	
+	
+	public Page<TbIssue> findPagelist(Page<TbIssue> page, TbIssue tbIssue) {
+		List<TbIssue> issueList = new ArrayList<TbIssue>();
+		List<TbIssue> s = findList(tbIssue);
+		for(TbIssue issue : s) {
+			if(issue.getIssueStatus() == 1) {
+				issueList.add(issue);
+			}
+		}
+		
+		page.setList(issueList);
+		return page;
+	}
+	
+	
+	
 	
 	@Transactional(readOnly = false)
 	public void save(TbIssue tbIssue) {

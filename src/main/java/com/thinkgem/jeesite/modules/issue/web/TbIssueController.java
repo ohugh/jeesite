@@ -130,7 +130,13 @@ public class TbIssueController extends BaseController {
 	@RequiresPermissions("issue:tbIssue:view")
 	@RequestMapping(value = "replylist")
 	public String replylist(TbIssue tbIssue, HttpServletRequest request, HttpServletResponse response, Model model) {
+		
+		
 		Page<TbIssue> page = tbIssueService.findPage(new Page<TbIssue>(request, response), tbIssue); 
+		
+		
+		
+		
 		model.addAttribute("page", page);
 		return "modules/issue/replyIssueList";
 	}
