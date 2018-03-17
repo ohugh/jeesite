@@ -57,6 +57,10 @@ public class TbTaskController extends BaseController {
 	@RequiresPermissions("task:tbTask:view")
 	@RequestMapping(value = "form")
 	public String form(TbTask tbTask, Model model) {
+		
+		
+		
+		
 		model.addAttribute("tbTask", tbTask);
 		return "modules/task/tbTaskForm";
 	}

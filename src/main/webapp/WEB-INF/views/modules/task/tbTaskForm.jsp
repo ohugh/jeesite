@@ -1,10 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
+
 <head>
 	<title>作业信息管理</title>
 	<meta name="decorator" content="default"/>
+		
 	<script type="text/javascript">
+	
+
 		$(document).ready(function() {
 			//$("#name").focus();
 			$("#inputForm").validate({
@@ -42,27 +46,35 @@
 		</div>
 		<div class="control-group">
 			<label class="control-label">发布班级：</label>
-			<div class="controls">
-				<form:checkboxes path="taskClass" items="${fns:getDictList('')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required"/>
-				<span class="help-inline"><font color="red">*</font> </span>
-			</div>
-		</div>
+		    <nav class="navbar navbar-default" role="navigation">
+			    <div class="container-fluid" >
+			      <div class="navbar-form navbar-left" role="search" >
+			        <div class="form-group">
+			          <select class="selectpicker" multiple data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true">
+			              <option>云计算一班</option>
+			              <option>云计算二班</option>
+			              <option>云计算三班</option>
+			              <option>云计算四班</option>
+			          </select>
+			        </div>
+			      </div>
+			    </div>
+		  	</nav>
+  		</div>
+				<!-- 
+					<form:checkboxes path="taskClass" items="${fns:getDictList('')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required"/>
+					<span class="help-inline"><font color="red">*</font> </span>
+			 	-->
+		
 		<div class="control-group">
-			<label class="control-label">作业：</label>
-			<div class="controls">
-				<form:hidden id="taskFile" path="taskFile" htmlEscape="false" class="input-xlarge"/>
-				<sys:ckfinder input="taskFile" type="files" uploadPath="/task/tbTask" selectMultiple="true"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">备注信息：</label>
+			<label class="control-label">作业内容：</label>
 			<div class="controls">
 				<form:textarea path="remarks" htmlEscape="false" rows="4" maxlength="255" class="input-xxlarge "/>
 			</div>
 		</div>
 		<div class="form-actions">
-			<shiro:hasPermission name="task:tbTask:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
-			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+			<shiro:hasPermission name="task:tbTask:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="发 布"/>&nbsp;</shiro:hasPermission>
+			<input id="btnCancel" class="btn" type="button" value="取 消" onclick="history.go(-1)"/>
 		</div>
 	</form:form>
 </body>
