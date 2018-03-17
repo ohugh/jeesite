@@ -132,7 +132,7 @@ public class TbIssueController extends BaseController {
 	public String replylist(TbIssue tbIssue, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		
-		Page<TbIssue> page = tbIssueService.findPage(new Page<TbIssue>(request, response), tbIssue); 
+		Page<TbIssue> page = tbIssueService.findPagelist(new Page<TbIssue>(request, response), tbIssue); 
 		
 		
 		

@@ -44,7 +44,6 @@ public class TbIssueService extends CrudService<TbIssueDao, TbIssue> {
 				issueList.add(issue);
 			}
 		}
-		
 		page.setList(issueList);
 		return page;
 	}
