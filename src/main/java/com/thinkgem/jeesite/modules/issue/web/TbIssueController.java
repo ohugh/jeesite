@@ -138,6 +138,7 @@ public class TbIssueController extends BaseController {
 	}
 	
 	//回复的form 页面对应处理方法
+	
 	@RequiresPermissions("issue:tbIssue:view")
 	@RequestMapping(value = "replyform")
 	public String replyform(TbIssue tbIssue, Model model) {
