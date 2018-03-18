@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.modules.issue.entity.TbIssue;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import com.thinkgem.jeesite.modules.issue.dao.TbIssueDao;
 
 /**
@@ -36,6 +37,32 @@ public class TbIssueService extends CrudService<TbIssueDao, TbIssue> {
 	}
 	
 	
+	/**
+	 * 返回的问题是学生自己提出的问题
+	 * @param page
+	 * @param tbIssue
+	 * @return
+	 */
+	public Page<TbIssue> findPageself(Page<TbIssue> page, TbIssue tbIssue) {
+		List<TbIssue> issueList = new ArrayList<TbIssue>();
+		List<TbIssue> s = findList(tbIssue);
+		for(TbIssue issue : s) {
+			System.out.println("当前的用户 = " +UserUtils.getUser().getId());
+			if(issue.getCreateBy().equals(UserUtils.getUser())) {
+				issueList.add(issue);
+			}
+		}
+		page.setList(issueList);
+		return page;
+	}
+	
+	
+	/**
+	 * 返回的问题是状态为通过的
+	 * @param page
+	 * @param tbIssue
+	 * @return
+	 */
 	public Page<TbIssue> findPagelist(Page<TbIssue> page, TbIssue tbIssue) {
 		List<TbIssue> issueList = new ArrayList<TbIssue>();
 		List<TbIssue> s = findList(tbIssue);
@@ -47,9 +74,6 @@ public class TbIssueService extends CrudService<TbIssueDao, TbIssue> {
 		page.setList(issueList);
 		return page;
 	}
-	
-	
-	
 	
 	@Transactional(readOnly = false)
 	public void save(TbIssue tbIssue) {
