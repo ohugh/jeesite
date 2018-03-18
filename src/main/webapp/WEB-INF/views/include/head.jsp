@@ -18,20 +18,19 @@
 <script src="${ctxStatic}/common/mustache.min.js" type="text/javascript"></script>
 <link href="${ctxStatic}/common/jeesite.css" type="text/css" rel="stylesheet" />
 <script src="${ctxStatic}/common/jeesite.js" type="text/javascript"></script>
+
+
+ 
+<script type="text/javascript">var ctx = '${ctx}', ctxStatic='${ctxStatic}';</script>
+
+<!--  
 <link href="${ctxStatic}/bootstrap/2.3.1/select/bootstrap-select.min.css" type="text/css" rel="stylesheet" />
 <link href="${ctxStatic}/bootstrap/2.3.1/select/bootstrap-select.css" type="text/css" rel="stylesheet" />
 <script src="${ctxStatic}/bootstrap/2.3.1/select/bootstrap-select.js" type="text/javascript"></script>
 <script src="${ctxStatic}/bootstrap/2.3.1/select/bootstrap-select.min.js" type="text/javascript"></script>
  <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
-<script type="text/javascript">var ctx = '${ctx}', ctxStatic='${ctxStatic}';</script>
-
-<!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
-
-<!-- Latest compiled and minified JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
-
-<!-- (Optional) Latest compiled and minified JavaScript translation files -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/i18n/defaults-*.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-
+-->

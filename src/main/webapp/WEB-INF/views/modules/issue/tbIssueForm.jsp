@@ -27,7 +27,6 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/issue/tbIssue/">问题列表</a></li>
 		<li class="active"><a href="${ctx}/issue/tbIssue/form?id=${tbIssue.id}">问题<shiro:hasPermission name="issue:tbIssue:edit">${not empty tbIssue.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="issue:tbIssue:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="tbIssue" action="${ctx}/issue/tbIssue/save" method="post" class="form-horizontal">
