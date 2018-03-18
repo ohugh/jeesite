@@ -62,7 +62,7 @@
 					${tbTask.remarks}
 				</td>
 				<shiro:hasPermission name="task:tbTask:edit"><td>
-    				<a href="${ctx}/task/tbTask/studentTaskform?id=${tbTask.id}">提交作业</a>
+    				<a href="${ctx}/task/tbTask/studentTaskform?id=${tbTask.id}">提交不男不女作业</a>
 					<a href="${ctx}/task/tbTask/delete?id=${tbTask.id}" onclick="return confirmx('确认要删除该作业信息吗？', this.href)">删除</a>
 				</td></shiro:hasPermission>
 			</tr>
