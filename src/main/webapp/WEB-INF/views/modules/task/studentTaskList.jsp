@@ -35,7 +35,7 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th>hhaohao</th>
+				<th>作业题目</th>
 				<th>发布班级</th>
 				<th></th>
 				<th>创建老师id</th>
