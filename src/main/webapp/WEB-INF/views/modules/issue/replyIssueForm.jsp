@@ -14,7 +14,7 @@
 				},
 				errorContainer: "#messageBox",
 				errorPlacement: function(error, element) {
-					$("#messageBox").text("输入有误，请先更正。");
+					$("#messageBox").text("输入有误，请先更正。 ");
 					if (element.is(":checkbox")||element.is(":radio")||element.parent().is(".input-append")){
 						error.appendTo(element.parent().parent());
 					} else {
@@ -30,7 +30,7 @@
 		<li><a href="${ctx}/issue/tbIssue/replylist/">解答问题列表</a></li>
 		<li class="active"><a href="${ctx}/issue/tbIssue/replyform?id=${tbIssue.id}">问题解答<shiro:hasPermission name="issue:tbIssue:edit"></shiro:hasPermission><shiro:lacksPermission name="issue:tbIssue:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
-	<form:form id="inputForm" modelAttribute="tbIssue" action="${ctx}/issue/tbIssue/save" method="post" class="form-horizontal">
+	<form:form id="inputForm" modelAttribute="tbIssue" action="${ctx}/issue/tbIssue/replysave" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		
 		<div class="control-group">
@@ -53,9 +53,9 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">备注 信息：</label>
+			<label class="control-label">回答：</label>
 			<div class="controls">
-				<form:textarea path="remarks" htmlEscape="false" rows="4" maxlength="255" class="input-xxlarge "/>
+				<form:textarea path="content" htmlEscape="false" rows="4" maxlength="255" class="input-xxlarge "/>
 			</div>
 		</div>
 
