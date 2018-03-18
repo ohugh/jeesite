@@ -18,6 +18,7 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
+		<li class="active"><a href="${ctx}/issue/tbIssue/">问题列表</a></li>
 		<c:if test="${!tbIssue.self}"><shiro:hasPermission name="issue:tbIssue:edit"><li><a href="${ctx}/issue/tbIssue/form">问题添加</a></li></shiro:hasPermission></c:if>
 	</ul>
 	<form:form id="searchForm" modelAttribute="tbIssue" action="${ctx}/issue/tbIssue/" method="post" class="breadcrumb form-search">
