@@ -23,7 +23,7 @@ public class TbIssue extends DataEntity<TbIssue> {
 	private String teacherid; 		//解答老师id  对应数据库的列
 	private String content;			//解答内容
 	
-	private boolean isSelf;		// 添加 是否显示另一个标签 数据库中没有此列
+	private boolean isSelf;		//添加 是否显示另一个标签 数据库中没有此列
 	
 	//添加开始
 
