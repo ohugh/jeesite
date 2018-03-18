@@ -35,9 +35,10 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th>asdasdasd</th>
+				<th>作业题目</th>
 				<th>发布班级</th>
 				<th></th>
+				<th>发布老师</th>
 				<th>创建老师id</th>
 				<th>更新时间</th>
 				<th>备注信息</th>
@@ -63,7 +64,7 @@
 					${tbTask.remarks}
 				</td>
 				<shiro:hasPermission name="task:tbTask:edit"><td>
-    				<a href="${ctx}/task/tbTask/studentTaskform?id=${tbTask.id}">提交不男asdasd业</a>
+    				<a href="${ctx}/task/tbTask/studentTaskform?id=${tbTask.id}">提交作业</a>
 					<a href="${ctx}/task/tbTask/delete?id=${tbTask.id}" onclick="return confirmx('确认要删除该作业信息吗？', this.href)">删除</a>
 				</td></shiro:hasPermission>
 			</tr>
