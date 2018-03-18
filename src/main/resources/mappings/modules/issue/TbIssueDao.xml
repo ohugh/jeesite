@@ -7,6 +7,8 @@
 		a.issue_title AS "issueTitle",
 		a.issue_content AS "issueContent",
 		a.issue_status AS "issueStatus",
+		a.teacher_id AS "teacherid",
+		a.solution AS "content",
 		a.popularity AS "popularity",
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
@@ -105,6 +107,8 @@
 			issue_title = #{issueTitle},
 			issue_content = #{issueContent},
 			issue_status = #{issueStatus},
+			teacher_id = #{teacherid},
+			solution = #{content},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
 			remarks = #{remarks}
