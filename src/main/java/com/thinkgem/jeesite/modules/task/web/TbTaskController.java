@@ -3,6 +3,10 @@
  */
 package com.thinkgem.jeesite.modules.task.web;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,6 +23,8 @@ import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.modules.clas.entity.TbClass;
+import com.thinkgem.jeesite.modules.clas.service.TbClassService;
 import com.thinkgem.jeesite.modules.task.entity.TbTask;
 import com.thinkgem.jeesite.modules.task.service.TbTaskService;
 
@@ -33,6 +39,9 @@ public class TbTaskController extends BaseController {
 
 	@Autowired
 	private TbTaskService tbTaskService;
+	
+	@Autowired
+	private TbClassService tbClassService;
 	
 	@ModelAttribute
 	public TbTask get(@RequestParam(required=false) String id) {
@@ -53,15 +62,29 @@ public class TbTaskController extends BaseController {
 		model.addAttribute("page", page);
 		return "modules/task/tbTaskList";
 	}
+	
+	
+	@RequiresPermissions("task:tbTask:view")
+	@RequestMapping(value = {"studentlist"})
+	public String studenlist(TbTask tbTask, HttpServletRequest request, HttpServletResponse response, Model model) {
+		Page<TbTask> page = tbTaskService.findPage(new Page<TbTask>(request, response), tbTask); 
+		model.addAttribute("page", page);
+		return "modules/task/studentTaskList";
+	}
 
 	@RequiresPermissions("task:tbTask:view")
 	@RequestMapping(value = "form")
 	public String form(TbTask tbTask, Model model) {
 		
+		List<TbClass> tbClassList = tbClassService.findList(new TbClass());
 		
+		Map<String,String> classNameList = new HashMap<String,String>();
 		
-		
+		for(TbClass clas : tbClassList) {
+			classNameList.put(clas.getClassName(),clas.getClassName());
+		}
 		model.addAttribute("tbTask", tbTask);
+		model.addAttribute("classNameList", classNameList);
 		return "modules/task/tbTaskForm";
 	}
 

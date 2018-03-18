@@ -37,6 +37,8 @@ public interface UserDao extends CrudDao<User> {
 	 */
 	public long findAllCount(User user);
 	
+	
+	
 	/**
 	 * 更新用户密码
 	 * @param user

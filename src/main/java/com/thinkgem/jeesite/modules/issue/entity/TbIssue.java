@@ -21,11 +21,22 @@ public class TbIssue extends DataEntity<TbIssue> {
 	private Integer issueStatus;		// 状态
 	private Integer popularity;		// 热度
 	private String teacherid; 		//解答老师id  对应数据库的列
+	private String studentid;       //提问学生的id  对应数据库的列
 	private String content;			//解答内容
 	
 	private boolean isSelf;		//添加 是否显示另一个标签 数据库中没有此列
 	
 	//添加开始
+
+
+
+	public String getStudentid() {
+		return studentid;
+	}
+
+	public void setStudentid(String studentid) {
+		this.studentid = studentid;
+	}
 
 	//用isself属性 来判断 是否显示另一个 标签
 	public void setSelf(boolean isSelf) {

@@ -41,6 +41,17 @@
 			</div>
 		</div>
 		<div class="control-group">
+			<label class="control-label">选择老师：</label>
+			<div class="controls">
+				<form:select path="teacherid">
+					<form:option value="null" label="请选择" />
+                    <form:options items="${teacherList}" />
+				</form:select>
+				<span class="help-inline"><font color="red">*</font> </span>
+			</div>
+		</div>
+		
+		<div class="control-group">
 			<label class="control-label">内容：</label>
 			<div class="controls">
 				<form:textarea path="issueContent" htmlEscape="false" rows="4" class="input-xxlarge "/>
@@ -52,6 +63,7 @@
 				<form:textarea path="remarks" htmlEscape="false" rows="4" maxlength="255" class="input-xxlarge "/>
 			</div>
 		</div>
+		<form:hidden path="studentid" value="${studentId}"/>
 		
 
 		<div class="form-actions">

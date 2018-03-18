@@ -37,11 +37,10 @@
 			<tr>
 				<th>作业题目</th>
 				<th>发布班级</th>
-				<th></th>
-				<th>发布老师</th>
 				<th>创建老师id</th>
 				<th>更新时间</th>
 				<th>备注信息</th>
+				<th>上传作业</th>
 				<shiro:hasPermission name="task:tbTask:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
@@ -63,10 +62,9 @@
 				<td>
 					${tbTask.remarks}
 				</td>
-				<shiro:hasPermission name="task:tbTask:edit"><td>
-    				<a href="${ctx}/task/tbTask/studentTaskform?id=${tbTask.id}">提交作业</a>
-					<a href="${ctx}/task/tbTask/delete?id=${tbTask.id}" onclick="return confirmx('确认要删除该作业信息吗？', this.href)">删除</a>
-				</td></shiro:hasPermission>
+				<td>
+    				<input type="file" name="submittask">提交</a>
+				</td>
 			</tr>
 		</c:forEach>
 		</tbody>

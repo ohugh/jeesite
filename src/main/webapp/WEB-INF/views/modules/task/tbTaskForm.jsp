@@ -46,25 +46,15 @@
 		</div>
 		<div class="control-group">
 			<label class="control-label">发布班级：</label>
-		    <nav class="navbar navbar-default" role="navigation">
-			    <div class="container-fluid" >
-			      <div class="navbar-form navbar-left" role="search" >
-			        <div class="form-group">
-			          <select class="selectpicker" multiple data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true">
-			              <option>云计算一班</option>
-			              <option>云计算二班</option>
-			              <option>云计算三班</option>
-			              <option>云计算四班</option>
-			          </select>
-			        </div>
-			      </div>
-			    </div>
-		  	</nav>
+			<div class="controls">
+			  <form:select path="taskClass">
+				<form:option value="null" label="请选择         " />
+                   <form:options items="${classNameList}" />
+			  </form:select>
+			  <span class="help-inline"><font color="red">*</font> </span>
+			</div>
   		</div>
-				<!-- 
-					<form:checkboxes path="taskClass" items="${fns:getDictList('')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required"/>
-					<span class="help-inline"><font color="red">*</font> </span>
-			 	-->
+		<form:hidden path="teacherid" value="${teacherId}"/>
 		
 		<div class="control-group">
 			<label class="control-label">作业内容：</label>
