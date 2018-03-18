@@ -20,10 +20,14 @@ public class TbIssue extends DataEntity<TbIssue> {
 	private String issueContent;		// 内容
 	private Integer issueStatus;		// 状态
 	private Integer popularity;		// 热度
-	//private //解答老师id  对应数据库的列
+	private String teacherid; 		//解答老师id  对应数据库的列
+	private String content;			//解答内容
 	
-	private boolean isSelf;		// 添加 是否显示另一个标签 数据库中没有此列
+	private boolean isSelf;		//添加 是否显示另一个标签 数据库中没有此列
+	
 	//添加开始
+
+	//用isself属性 来判断 是否显示另一个 标签
 	public void setSelf(boolean isSelf) {
 		this.isSelf = isSelf;
 	}
@@ -74,5 +78,24 @@ public class TbIssue extends DataEntity<TbIssue> {
 	public void setPopularity(Integer popularity) {
 		this.popularity = popularity;
 	}
+	
+	//添加教师回复内容
+	public String getcontent() {
+		return content;
+	}
+
+	public void setcontent(String content) {
+		this.content = content;
+	}
+	
+	//添加教师id
+	public String getteacherid() {
+		return teacherid;
+	}
+
+	public void setteacherid(String teacherid) {
+		this.teacherid = teacherid;
+	}
+	
 	
 }
