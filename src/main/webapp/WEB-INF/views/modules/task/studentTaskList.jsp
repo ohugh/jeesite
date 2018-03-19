@@ -18,7 +18,7 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/task/tbTask/">作业信息列表</a></li>
+		<li class="active"><a href="${ctx}/task/tbTask/studentTasklist/">作业信息列表</a></li>
 	</ul>
 	<form:form id="searchForm" modelAttribute="tbTask" action="${ctx}/task/tbTask/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
@@ -35,12 +35,11 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th>作业题目</th>
+				<th>题目</th>
 				<th>发布班级</th>
 				<th>创建老师id</th>
 				<th>更新时间</th>
 				<th>备注信息</th>
-				<th>上传作业</th>
 				<shiro:hasPermission name="task:tbTask:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
@@ -62,9 +61,10 @@
 				<td>
 					${tbTask.remarks}
 				</td>
-				<td>
-    				<input type="file" name="submittask">提交</a>
-				</td>
+				<shiro:hasPermission name="task:tbTask:edit"><td>
+    				<a href="${ctx}/task/tbTask/studentTaskform?id=${tbTask.id}">提交作业</a>
+					<a href="${ctx}/task/tbTask/delete?id=${tbTask.id}" onclick="return confirmx('确认要删除该作业信息吗？', this.href)">删除</a>
+				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>
 		</tbody>
