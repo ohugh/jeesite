@@ -56,7 +56,6 @@ public class TbIssueService extends CrudService<TbIssueDao, TbIssue> {
 		return page;
 	}
 	
-	
 	/**
 	 * 返回的问题是状态为通过的
 	 * @param page

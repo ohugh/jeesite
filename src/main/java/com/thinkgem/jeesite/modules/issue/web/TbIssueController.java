@@ -3,6 +3,11 @@
  */
 package com.thinkgem.jeesite.modules.issue.web;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,6 +27,11 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.issue.entity.TbIssue;
 import com.thinkgem.jeesite.modules.issue.service.TbIssueService;
 import com.thinkgem.jeesite.modules.oa.entity.OaNotify;
+import com.thinkgem.jeesite.modules.sys.entity.User;
+import com.thinkgem.jeesite.modules.sys.service.SystemService;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+import com.thinkgem.jeesite.modules.teacher.entity.TbTeacher;
+import com.thinkgem.jeesite.modules.teacher.service.TbTeacherService;
 
 /**
  * 学生问题管理Controller
@@ -34,6 +44,10 @@ public class TbIssueController extends BaseController {
 
 	@Autowired
 	private TbIssueService tbIssueService;
+	
+	@Autowired
+	private SystemService systemService;
+	
 	
 	@ModelAttribute
 	public TbIssue get(@RequestParam(required=false) String id) {
@@ -59,6 +73,17 @@ public class TbIssueController extends BaseController {
 	@RequestMapping(value = "form")
 	public String form(TbIssue tbIssue, Model model) {
 		model.addAttribute("tbIssue", tbIssue);
+		List<User> teacherList = systemService.findUser(new User());
+		Map<String,String> teacherNameList = new HashMap<String,String>();
+		for (User t : teacherList) {
+			if(t.getUserType().equals("2")) {
+				teacherNameList.put(t.getId(),t.getLoginName());
+			}
+		}
+		
+		String studentid = UserUtils.getUser().getId();
+		model.addAttribute("studentId", studentid);
+		model.addAttribute("teacherList", teacherNameList);
 		return "modules/issue/tbIssueForm";
 	}
 
