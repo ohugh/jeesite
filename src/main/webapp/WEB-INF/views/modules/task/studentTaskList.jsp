@@ -18,7 +18,7 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/task/tbTask/">作业信息列表</a></li>
+		<li class="active"><a href="${ctx}/task/tbTask/studentTasklist/">作业信息列表</a></li>
 	</ul>
 	<form:form id="searchForm" modelAttribute="tbTask" action="${ctx}/task/tbTask/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
