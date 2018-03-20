@@ -25,6 +25,7 @@ import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.clas.entity.TbClass;
 import com.thinkgem.jeesite.modules.clas.service.TbClassService;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import com.thinkgem.jeesite.modules.task.entity.TbTask;
 import com.thinkgem.jeesite.modules.task.service.TbTaskService;
 
@@ -91,6 +92,7 @@ public class TbTaskController extends BaseController {
 	@RequiresPermissions("task:tbTask:edit")
 	@RequestMapping(value = "save")
 	public String save(TbTask tbTask, Model model, RedirectAttributes redirectAttributes) {
+		tbTask.setTaskCreateId(UserUtils.getUser().getId());	//保存当前发布作业的教师id
 		if (!beanValidator(model, tbTask)){
 			return form(tbTask, model);
 		}
@@ -107,4 +109,56 @@ public class TbTaskController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/task/tbTask/?repage";
 	}
 
+	
+	
+	/**
+	 * 学生提交作业 列表
+	 * @param tbTask
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequiresPermissions("task:tbTask:view")
+	@RequestMapping(value = {"studentTasklist"})
+	public String studentTasklist(TbTask tbTask, HttpServletRequest request, HttpServletResponse response, Model model) {
+		Page<TbTask> page = tbTaskService.findPage(new Page<TbTask>(request, response), tbTask); 
+		model.addAttribute("page", page);
+		return "modules/task/studentTaskList";
+	}
+
+	/**
+	 * 学生提交作业详情页
+	 * @param tbTask
+	 * @param model
+	 * @return
+	 */
+	@RequiresPermissions("task:tbTask:view")
+	@RequestMapping(value = "studentTaskform")
+	public String studentTaskform(TbTask tbTask, Model model) {
+		
+		
+		
+		
+		model.addAttribute("tbTask", tbTask);
+		return "modules/task/studentTaskForm";
+	}
+	
+	/**
+	 * 学生提交作业，保存方法，（没有写入提交人的id）
+	 * @param tbTask
+	 * @param model
+	 * @param redirectAttributes
+	 * @return
+	 */
+	@RequiresPermissions("task:tbTask:edit")
+	@RequestMapping(value = "studentTasksave")
+	public String studentTasksave(TbTask tbTask, Model model, RedirectAttributes redirectAttributes) {
+		if (!beanValidator(model, tbTask)){
+			return form(tbTask, model);
+		}
+		tbTaskService.save(tbTask);
+		addMessage(redirectAttributes, "保存作业信息成功");
+		return "redirect:"+Global.getAdminPath()+"/task/tbTask/studentTasklist/?repage";
+	}
 }

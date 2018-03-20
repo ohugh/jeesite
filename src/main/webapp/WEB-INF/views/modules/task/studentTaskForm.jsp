@@ -31,10 +31,10 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/task/tbTask/">作业信息列表</a></li>
-		<li class="active"><a href="${ctx}/task/tbTask/form?id=${tbTask.id}">作业信息<shiro:hasPermission name="task:tbTask:edit">${not empty tbTask.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="task:tbTask:edit">查看</shiro:lacksPermission></a></li>
+		<li><a href="${ctx}/task/tbTask/studentTasklist/">作业信息列表</a></li>
+		<li class="active"><a href="${ctx}/task/tbTask/studentTaskform?id=${tbTask.id}">提交作业<shiro:hasPermission name="task:tbTask:edit"></shiro:hasPermission><shiro:lacksPermission name="task:tbTask:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
-	<form:form id="inputForm" modelAttribute="tbTask" action="${ctx}/task/tbTask/save" method="post" class="form-horizontal">
+	<form:form id="inputForm" modelAttribute="tbTask" action="${ctx}/task/tbTask/studentTasksave" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		
 		<div class="control-group">
@@ -44,17 +44,10 @@
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">发布班级：</label>
-			<div class="controls">
-			  <form:select path="taskClass">
-				<form:option value="null" label="请选择         " />
-                   <form:options items="${classNameList}" />
-			  </form:select>
-			  <span class="help-inline"><font color="red">*</font> </span>
-			</div>
-  		</div>
-		<form:hidden path="taskCreateId" value="${taskCreateId}"/>
+				<!-- 
+					<form:checkboxes path="taskClass" items="${fns:getDictList('')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required"/>
+					<span class="help-inline"><font color="red">*</font> </span>
+			 	-->
 		
 		<div class="control-group">
 			<label class="control-label">作业内容：</label>
@@ -62,8 +55,19 @@
 				<form:textarea path="remarks" htmlEscape="false" rows="4" maxlength="255" class="input-xxlarge "/>
 			</div>
 		</div>
+		
+		<form:hidden path="taskCreateId" value="${taskCreateId}"/>
+		
+		<div class="control-group">
+			<label class="control-label">选择作业：</label>
+			<div class="controls">
+				<form:hidden id="taskFile" path="taskFile" htmlEscape="false" class="input-xlarge"/>
+				<sys:ckfinder input="taskFile" type="files" uploadPath="/task/tbTask" selectMultiple="true"/>
+			</div>
+		</div>
+		
 		<div class="form-actions">
-			<shiro:hasPermission name="task:tbTask:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="发 布"/>&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="task:tbTask:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="提 交"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="取 消" onclick="history.go(-1)"/>
 		</div>
 	</form:form>
