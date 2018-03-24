@@ -248,13 +248,13 @@ public class FrontController extends BaseController{
 			// 文章阅读次数+1
 			articleService.updateHitsAddOne(contentId);
 			// 获取推荐文章列表
-			List<Object[]> relationList = articleService.findByIds(articleDataService.get(article.getId()).getRelation());
+			//List<Object[]> relationList = articleService.findByIds(articleDataService.get(article.getId()).getRelation());
 			// 将数据传递到视图
 			model.addAttribute("category", categoryService.get(article.getCategory().getId()));
 			model.addAttribute("categoryList", categoryList);
 			article.setArticleData(articleDataService.get(article.getId()));
 			model.addAttribute("article", article);
-			model.addAttribute("relationList", relationList); 
+			//model.addAttribute("relationList", relationList); 
             CmsUtils.addViewConfigAttribute(model, article.getCategory());
             CmsUtils.addViewConfigAttribute(model, article.getViewConfig());
             Site site = siteService.get(category.getSite().getId());

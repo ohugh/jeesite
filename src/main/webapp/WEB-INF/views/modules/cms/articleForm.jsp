@@ -57,7 +57,7 @@
 		<div class="control-group">
 			<label class="control-label">标题:</label>
 			<div class="controls">
-				<form:input path="title" htmlEscape="false" maxlength="200" class="input-xxlarge measure-input required"/>
+				<form:input path="title" htmlEscape="false" maxlength="200" class="input-xxlarge measure-input required" readonly="true"/>
 				&nbsp;<label>颜色:</label>
 				<form:select path="color" class="input-mini">
 					<form:option value="" label="默认"/>
@@ -94,9 +94,9 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">摘要:</label>
+			<label class="control-label">问题内容:</label>
 			<div class="controls">
-				<form:textarea path="description" htmlEscape="false" rows="4" maxlength="200" class="input-xxlarge"/>
+				<form:textarea path="description" htmlEscape="false" rows="4" maxlength="200" class="input-xxlarge" readonly="true"/>
 			</div>
 		</div>
 		<div class="control-group">
@@ -107,7 +107,7 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">正文:</label>
+			<label class="control-label">回答内容:</label>
 			<div class="controls">
 				<form:textarea id="content" htmlEscape="true" path="articleData.content" rows="4" maxlength="200" class="input-xxlarge"/>
 				<sys:ckeditor replace="content" uploadPath="/cms/article" />
@@ -120,7 +120,7 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">相关文章:</label>
+			<label class="control-label">相关问题:</label>
 			<div class="controls">
 				<form:hidden id="articleDataRelation" path="articleData.relation" htmlEscape="false" maxlength="200" class="input-xlarge"/>
 				<ol id="articleSelectList"></ol>
@@ -214,6 +214,8 @@
                 </div>
             </div>
 		</shiro:hasPermission>
+		
+		<!-- 
 		<c:if test="${not empty article.id}">
 			<div class="control-group">
 				<label class="control-label">查看评论:</label>
@@ -235,6 +237,7 @@
 				</div>
 			</div>
 		</c:if>
+		 -->
 		<div class="form-actions">
 			<shiro:hasPermission name="cms:article:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>

@@ -66,14 +66,6 @@ public class ArticleController extends BaseController {
 	@RequiresPermissions("cms:article:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(Article article, HttpServletRequest request, HttpServletResponse response, Model model) {
-//		for (int i=0; i<10000000; i++){
-//			Article a = new Article();
-//			a.setCategory(new Category(article.getCategory().getId()));
-//			a.setTitle("测试测试测试测试测试测试测试测试"+a.getCategory().getId());
-//			a.setArticleData(new ArticleData());
-//			a.getArticleData().setContent(a.getTitle());
-//			articleService.save(a);
-//		}
         Page<Article> page = articleService.findPage(new Page<Article>(request, response), article, true); 
         model.addAttribute("page", page);
 		return "modules/cms/articleList";
@@ -98,6 +90,7 @@ public class ArticleController extends BaseController {
         model.addAttribute("contentViewList",getTplContent());
         model.addAttribute("article_DEFAULT_TEMPLATE",Article.DEFAULT_TEMPLATE);
 		model.addAttribute("article", article);
+		System.out.println("栏目ID = " + article.getCategory().getId());
 		CmsUtils.addViewConfigAttribute(model, article.getCategory());
 		return "modules/cms/articleForm";
 	}
@@ -113,6 +106,56 @@ public class ArticleController extends BaseController {
 		String categoryId = article.getCategory()!=null?article.getCategory().getId():null;
 		return "redirect:" + adminPath + "/cms/article/?repage&category.id="+(categoryId!=null?categoryId:"");
 	}
+	/**
+	 * 学生提交问题表单
+	 * @param article
+	 * @param model
+	 * @param redirectAttributes
+	 * @return
+	 */
+	@RequiresPermissions("cms:article:edit")
+	@RequestMapping(value = "studentsave")
+	public String studnetsave(Article article, Model model, RedirectAttributes redirectAttributes) {
+		if (!beanValidator(model, article)){
+			return form(article, model);
+		}
+		articleService.saveStudent(article);
+		addMessage(redirectAttributes, "保存文章'" + StringUtils.abbr(article.getTitle(),50) + "'成功");
+		String categoryId = article.getCategory()!=null?article.getCategory().getId():null;
+		return "redirect:" + adminPath + "/cms/article/?repage&category.id="+(categoryId!=null?categoryId:"");
+	}
+	
+	/**
+	 * 学生提交问题页面跳转
+	 * @param article
+	 * @param model
+	 * @return
+	 */
+	
+	@RequiresPermissions("cms:article:view")
+	@RequestMapping(value = "studentform")
+	public String studentform(Article article, Model model) {
+		// 如果当前传参有子节点，则选择取消传参选择
+		if (article.getCategory()!=null && StringUtils.isNotBlank(article.getCategory().getId())){
+			List<Category> list = categoryService.findByParentId(article.getCategory().getId(), Site.getCurrentSiteId());
+			if (list.size() > 0){
+				article.setCategory(null);
+			}else{
+				article.setCategory(categoryService.get(article.getCategory().getId()));
+			}
+		}
+		article.setArticleData(articleDataService.get(article.getId()));
+//		if (article.getCategory()=null && StringUtils.isNotBlank(article.getCategory().getId())){
+//			Category category = categoryService.get(article.getCategory().getId());
+//		}
+        model.addAttribute("contentViewList",getTplContent());
+        model.addAttribute("article_DEFAULT_TEMPLATE",Article.DEFAULT_TEMPLATE);
+		model.addAttribute("article", article);
+		CmsUtils.addViewConfigAttribute(model, CmsUtils.getCategory("2"));
+		return "modules/cms/articleFormStudent";
+	}
+	
+	
 	
 	@RequiresPermissions("cms:article:edit")
 	@RequestMapping(value = "delete")
