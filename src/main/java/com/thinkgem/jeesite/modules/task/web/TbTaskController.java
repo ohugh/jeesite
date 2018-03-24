@@ -21,10 +21,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.clas.entity.TbClass;
 import com.thinkgem.jeesite.modules.clas.service.TbClassService;
+import com.thinkgem.jeesite.modules.sys.entity.User;
+import com.thinkgem.jeesite.modules.sys.service.SystemService;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import com.thinkgem.jeesite.modules.task.entity.TbTask;
 import com.thinkgem.jeesite.modules.task.service.TbTaskService;
@@ -43,6 +45,11 @@ public class TbTaskController extends BaseController {
 	
 	@Autowired
 	private TbClassService tbClassService;
+	
+	private UserUtils userUtils;
+	
+	@Autowired
+	private SystemService SystemService;
 	
 	@ModelAttribute
 	public TbTask get(@RequestParam(required=false) String id) {
@@ -77,13 +84,32 @@ public class TbTaskController extends BaseController {
 	@RequestMapping(value = "form")
 	public String form(TbTask tbTask, Model model) {
 		
+		User user=userUtils.getUser();
+		String clas = user.getRemarks();
+		
+
+		
+		String[] clases=clas.split(",");
+		
+		
 		List<TbClass> tbClassList = tbClassService.findList(new TbClass());
 		
 		Map<String,String> classNameList = new HashMap<String,String>();
 		
-		for(TbClass clas : tbClassList) {
-			classNameList.put(clas.getClassName(),clas.getClassName());
+
+		for(String cla:clases) {		
+			for(TbClass claz : tbClassList) {
+//				System.out.println(cla);
+				System.out.println(claz.getId());
+				if(cla.equals(claz.getId())) {
+					System.out.println(cla);
+					classNameList.put(cla,claz.getClassName());
+				}
+					
+				
+			}
 		}
+		
 		model.addAttribute("tbTask", tbTask);
 		model.addAttribute("classNameList", classNameList);
 		return "modules/task/tbTaskForm";

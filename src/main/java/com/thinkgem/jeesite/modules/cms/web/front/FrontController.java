@@ -274,7 +274,7 @@ public class FrontController extends BaseController{
 		Comment c = new Comment();
 		c.setCategory(comment.getCategory());
 		c.setContentId(comment.getContentId());
-		c.setDelFlag(Comment.DEL_FLAG_NORMAL);
+		c.setDelFlag("0");
 		page = commentService.findPage(page, c);
 		model.addAttribute("page", page);
 		model.addAttribute("comment", comment);
