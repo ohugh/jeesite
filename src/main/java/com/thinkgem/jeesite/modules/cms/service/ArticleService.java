@@ -77,6 +77,10 @@ public class ArticleService extends CrudService<ArticleDao, Article> {
 	@Transactional(readOnly = false)
 	public void save(Article article) {
 		
+		if (article.getArticleData().getContent()!=null){
+			article.getArticleData().setContent(StringEscapeUtils.unescapeHtml4(
+					article.getArticleData().getContent()));
+		}
 		// 如果没有审核权限，则将当前内容改为待审核状态
 		if (!UserUtils.getSubject().isPermitted("cms:article:audit")){
 			article.setDelFlag(Article.DEL_FLAG_AUDIT);
@@ -88,21 +92,26 @@ public class ArticleService extends CrudService<ArticleDao, Article> {
 				article.setDelFlag(Article.DEL_FLAG_NORMAL);
 			}
 		}
-		if (StringUtils.isNotBlank(article.getViewConfig())){
+		article.setUpdateBy(UserUtils.getUser());
+		article.setUpdateDate(new Date());
+        if (StringUtils.isNotBlank(article.getViewConfig())){
             article.setViewConfig(StringEscapeUtils.unescapeHtml4(article.getViewConfig()));
         }
+        
         ArticleData articleData = new ArticleData();
-		article.preUpdate();
-		articleData = article.getArticleData();
-		articleData.setId(article.getId());
-        System.out.println("当前用户 = "+article.getCurrentUser());
-		int n = articleDataDao.update(article.getArticleData());
-		int flag = dao.update(article);
-		
-		
-		
-		System.out.println("文章更新结果= " + flag);
-		System.out.println("内容结果= " + n);
+		if (StringUtils.isBlank(article.getId())){
+			article.preInsert();
+			articleData = article.getArticleData();
+			articleData.setId(article.getId());
+			dao.insert(article);
+			articleDataDao.insert(articleData);
+		}else{
+			article.preUpdate();
+			articleData = article.getArticleData();
+			articleData.setId(article.getId());
+			dao.update(article);
+			articleDataDao.update(article.getArticleData());
+		}
 
 
 	}
@@ -126,8 +135,13 @@ public class ArticleService extends CrudService<ArticleDao, Article> {
         if (StringUtils.isNotBlank(article.getViewConfig())){
             article.setViewConfig(StringEscapeUtils.unescapeHtml4(article.getViewConfig()));
         }
-			article.preInsert();
-			dao.insert(article);
+        
+        ArticleData articleData = new ArticleData();;
+        article.preInsert();
+		articleData = article.getArticleData();
+		articleData.setId(article.getId());
+		dao.insert(article);
+		articleDataDao.insert(articleData);
 	}
 	
 	
